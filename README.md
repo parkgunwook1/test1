@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # toyProject
 [SpringBoot, mysql, Docker, JPA]
 
@@ -39,3 +40,6 @@
 1. Git에서 프로젝트 클론
    ```bash
    git clone https://github.com/parkgunwook1/toyProject.git
+=======
+# test1
+>>>>>>> f4e0d3c2d2c7153ceb3acbb4c799efa61e99cfcc
