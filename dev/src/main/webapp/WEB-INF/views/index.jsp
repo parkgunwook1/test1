@@ -64,7 +64,6 @@
     </div>
 
     <!-- 하드 코딩 수정 방식
-     
     <div class="board">
         <c:forEach items= "$posts}" var="post">
             <div class="board-item">

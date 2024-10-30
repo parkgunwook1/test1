@@ -32,10 +32,35 @@ public class Post {
 
     @Column(name = "view_count")
     public int viewCount;
+
     @Column(length = 300)
     public String image;
+
+    // status 추가해야함
+    @Column(nullable = false)
+    public String status;
 
     // 댓글과의 일대다 관계
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
     public List<Comment> comments;
+
+    public void updateViewCount(Post post) {
+        this.viewCount += 1;
+    }
+
+    // DTO 변환 메서드
+    public static Post convertToEntity(PostDto postDto) {
+        return Post.builder()
+            .postId(postDto.getPostId())
+            .title(postDto.getTitle())
+            .content(postDto.getContent())
+            .author(postDto.getAuthor())
+            .createDate(postDto.getCreateDate())
+            .modifiedDate(postDto.getModifiedDate())
+            .viewCount(postDto.getViewCount())
+            .image(postDto.getImage())
+            .status(postDto.getStatus())
+            .comments(postDto.getComments())
+            .build();
+    }
 }
