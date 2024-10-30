@@ -1,4 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -49,6 +50,10 @@
         .board {
             gap: 20px;
         }
+        .board-item img {
+            cursor: pointer;
+            max-width: 100%;
+        }
     </style>
 </head>
 <body>
@@ -58,10 +63,22 @@
         <button class="button" onclick="writePost()">글쓰기</button>
     </div>
 
+    <!-- 하드 코딩 수정 방식
+     
+    <div class="board">
+        <c:forEach items= "$posts}" var="post">
+            <div class="board-item">
+                <img src="${post.imgUrl}" alt="게시물 이미지" onclick="goToPost(${post.id})">
+                <p>${post.title}</p>
+            </div>
+        </c:forEach>
+    </div>    
+    -->
+
 
     <div class="board">
         <div class="board-item">
-            <img src="placeholder.jpg" alt="게시물 1 이미지">
+            <img src="placeholder.jpg" alt="게시물 1 이미지" onclick="goToPost(1)">
             <p>게시물 1</p>
         </div>
         <div class="board-item">
@@ -129,6 +146,11 @@
     <script>
         function writePost() {
             alert("글쓰기 버튼 클릭됨!");
+        }
+
+        function goTopost(postId) {
+            // 상세 페이지로 이동
+            window.location.href = '/post/detail?id=' + postId;
         }
     </script>
 
