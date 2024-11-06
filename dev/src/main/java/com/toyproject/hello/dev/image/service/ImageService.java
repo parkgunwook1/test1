@@ -20,12 +20,24 @@ public class ImageService {
     @Autowired
     ImageRepository imageRepository;
 
-    public boolean saveImage(MultipartFile image) throws IOException, NoSuchAlgorithmException {
-        String imageUrl = imageHandler.save(image);
-        Image imageEntity = new Image();
-        imageEntity.setImageUrl(imageUrl);
-        imageRepository.save(imageEntity);
-        return true;
+    public boolean saveImage(int postId , MultipartFile multiImage) throws IOException, NoSuchAlgorithmException {
+        
+        String uniqueFileName = UUID.randomUUID().toString() + "_" + multiImage.getOriginalFilename();
+        Path filePath = Paths.get(uploadPath + uniqueFileName);
+
+        try {
+            Files.createDirectories(filePath.getParent());
+            Files.copy(multiImage.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
+
+            Image imageEntity = Image.builder()
+                    .postId(postId)
+                    .imageUrl(uniqueFileName)
+                    .build();
+            imageRepository.save(imageEntity);
+
+        }catch(IOException e){
+            e.printStackTrace();
+        }
     }
 
 }

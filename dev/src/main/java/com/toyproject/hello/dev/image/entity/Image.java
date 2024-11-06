@@ -17,8 +17,16 @@ public class Image {
     @Column(name = "image_id")
     public int imageId;
 
-    @Column(name = "image_url", length = 400)
-    public String imageUrl;
+    @Column(name = "image", length = 400)
+    public String image;
+
+    @Column(name = "image_name", length = 500)
+    public String imageName;
+
+    @Column(name = "image_size")
+    public long imageSize;
+
+    @
 
     @Column(name = "post_id")
     public int postId;

@@ -21,7 +21,8 @@ public class Post {
 
     }
 
-    public Post(int postId, String title, String content, String author, Date createDate, Date modifiedDate, int viewCount, String image, String status) {
+    // Table 수정해야함 Image 따로 테이블 생성했음, Image 테이블 컬러명 수정
+    public Post(int postId, String title, String content, String author, Date createDate, Date modifiedDate, int viewCount, String status) {
         this.postId = postId;
         this.title = title;
         this.content = content;
@@ -29,7 +30,6 @@ public class Post {
         this.createDate = createDate;
         this.modifiedDate = modifiedDate;
         this.viewCount = viewCount;
-        this.image = image;
         this.status = status;
     }
 
@@ -59,8 +59,12 @@ public class Post {
     @Column(length = 300)
     public String image;
 
-    @Column(nullable = false)
+    @Column(name = "status")
     public String status;
+
+    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
+    public List<Image> images;
+
 
     // 댓글과의 일대다 관계
 //    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)

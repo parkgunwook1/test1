@@ -22,7 +22,10 @@ public class PostController {
     * - 상세보기 -> 수정, 삭제
     * - 헤더, 푸터
     * - 게시글에 이미지
+    * - 로그백 설정
     * */
+
+    // 
 
     @Autowired
     private PostService postService;
@@ -56,11 +59,23 @@ public class PostController {
 
     // 게시글 작성
     @PostMapping("/post/write")
-    public String write(PostDto postDto) {
-        postService.writePost(postDto);
-        return "redirect:/";
-    }
+    public String write(
+            @RequestParam("image") MultipartFile image, // 파일로 받기
+            @RequestParam("title") String title,
+            @RequestParam("content") String content) {
 
+        // 게시글 작성은 하나의 트랜잭션으로 처리되어야함.
+        PostDto postDto = new PostDto();
+        postDto.setTitle(title);
+        postDto.setContent(content);
+        // login 기능 구현하면 세션스코프에 담아서 getUserName 으로 받아오기
+        postDto.setAuthor("test");
+        
+        PostDto post = postService.writePost(postDto, image);
+
+        // 글쓰기 후 상세보기 페이지로 리다이렉트
+        return "redirect:/post/detail/" + post.getPostId();
+    }
 }
 
 

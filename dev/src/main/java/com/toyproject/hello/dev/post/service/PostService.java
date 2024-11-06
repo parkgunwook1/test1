@@ -19,6 +19,9 @@ public class PostService {
 
     private PostRepository postRepository;
 
+    @Autowired
+    private ImageService imageService;
+
     public PostService(PostRepository postRepository) {
         this.postRepository = postRepository;
     }
@@ -73,7 +76,16 @@ public class PostService {
         postRepository.save(post);
     }
     // 게시글 작성
-    public void writePost(PostDto postDto) {
-        postRepository.save(Post.ToPostEntity(postDto));
+    @Transactional
+    public PostDto writePost(PostDto postDto, MultipartFile multiImage) {
+        // 1. 게시글 저장
+        Post savePost = postRepository.save(Post.ToPostEntity(postDto));
+
+        // 2. 이미지 저장
+        if(multiImage != null && !multiImage.isEmpty()) {
+            imageService.saveImage(savePost.getPostId(),multiImage);
+        } 
+        // 글쓰기 후 클라이언트는 상세보기 페이지로 이동하게 해줘야함. PostDto 리턴
+        return PostDto.toPostDto(savePost);
     }
 }
